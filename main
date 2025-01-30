@@ -3,7 +3,8 @@
 #band is a variable used to append information to lst_band_names
 #artists is a variable used to append information to lst_artists
 #artmanagment_backtrack is used to tell wether its the users first time going through the program. if it is, they will go through standard artist managment, if not they will have a few more options like modifying their artists, or creating new lists.
-#dict_lists is a dictionary used to hold lists. 
+#lst_lists helps organise lists inside of the dictionary
+#dict_lists is a dictionary used to hold lists.
 
 #the lst_venus list im using in the add_artist_func should be switched out if needed, please let me know if you need assistance -mark
 #the lst_timeslots list im using in the add_artist_func should be switched out if needed, please let me know if you need assistance -mark
@@ -15,7 +16,7 @@
 
 #these lists are created outside any functions so that everyone is able to use them
 
-dict_lists = {} #add in
+dict_lists = {} 
 lst_band_names = []
 lst_artists = []
 lst_venus = []
@@ -44,14 +45,21 @@ def add_band_func(lst_band_names, lst_artists, lst_venus, lst_timeslots, dict_li
         lst_timeslots.append(time)
     for i in range(len(lst_band_names)):
         print(f"\n{lst_band_names[i]} with artists, {lst_artists[i]} will be on stage {lst_venus[i]}, at {lst_timeslots[i]}")
+    lst_lists1 = [lst_band_names, lst_artists, lst_venus, lst_timeslots]
+    dict_lists.setdefault(lst_lists1, 1)
     return
 
 #this allows modification, deletion, and creation of new lists
 def band_modify_func(lst_band_names, lst_artists, lst_venus, lst_timeslots):
     selection = 0
     while selection < 1 or selection > 5:
-        selection = input(f"We detect that you have already made {len(lst_lists)} band lists.\n\nYou can:\n\n(1) Modify an already existing band list\n\n(2) Create a new band list\n\n(3) Delete a band list\n\nPlease type the number corrosponding to your selectoin: ")
-
+        selection = input(f"We detect that you have already made {len(dict_lists)} band lists.\n\nYou can:\n\n(1) Modify an already existing band list\n\n(2) Create a new band list\n\n(3) Delete a band list\n\nPlease type the number corrosponding to your selectoin: ")
+        if selection == 1:
+            print("wip")
+        elif selection == 2:
+            #add a counter at the start of add_band_func to count the number of times user was there, making it so i can count the number it needs to be in the dictionary easier. 
+        elif selection == 3:
+            print("wip")
     
 
 
