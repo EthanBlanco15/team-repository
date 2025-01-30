@@ -167,9 +167,45 @@ def schedule_management():
                     if num3 == 0:
                         print("There is not an artist scheduled by that name!")
                 elif choice_of_switch == "2":
-                    starthere = True
+                    while True:
+                        num2 = 0
+                        time_to_change = input("What is the time that you want to change? (Type exit to exit)\n-->")
+                        for item in scheduled_artists:
+                            if time_to_change == item[0]:
+                                while True:
+                                    num4 = 0
+                                    new_time = input("What is the time that you want to change to? (Type exit to exit)\n-->")
+                                    for time in times_left:
+                                        if new_time == time:
+                                            scheduled_artists.append((new_time, item[1]))
+                                            times_left.append(item[0])
+                                            times_left.remove(new_time)
+                                            scheduled_artists.remove(item)
+                                            num4 +=1
+                                    if new_time == "exit":
+                                        break
+                                    if num4 == 0:
+                                        print("That is not a time that is left.")
+                                        print("Here are the available time slots:")
+                                        times_left.sort()
+                                        for time in times_left:
+                                            print(f"{time}")
+                                    else:
+                                        break
+                                num2 += 1
+                        if time_to_change == "exit":
+                            break
+                        if num2 == 0:
+                            print("There are no artists scheduled for that time!")
+                            print("Here are the currently scheduled artists:")
+                            for item in scheduled_artists:
+                                    print(f"{item[0]}: {item[1]}")
+                        else:
+                            break
         if choice == "4":
             break
+        else:
+            print("That is not valid option!")
 
                     
                 
