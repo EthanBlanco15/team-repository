@@ -43,10 +43,14 @@ def add_band_func():
     for i in range(num_bands):
         band = input(f"\nEnter the name of band {i+1}: ")
         artists = input(f"\nEnter the artists in {band} (format: artist1, artist2, artist3): ")
-        print(f"\nWhich venu will {band} be preforming at? availible venues :")
+        
+        venu = 0
+        print("here are the avalible venus:")
         for i in range(len(venue_list)):
-            print(f"\nVenu {i} {venue_list[i]}.")
-        venue = input(f"Please type the name of the venu you want the band to preform at: ")
+            print(f"\n{venu_list[i]}")
+        while venu not in venu_list:
+            venue = input(f"Which venu will {band} be preforming at? ")
+            
         time = input(f"\nWhat time will {band} perform on stage {venue}? (format: [][]:[][] AM/PM) ")
         genres = input(f"\nWhich genres will {band} be playing? (format: Jazz, Electronic, Rock):  ")
           
@@ -408,30 +412,46 @@ def ticket_sales():
                 
 def main():
     artmanagment_backtrack = 0
+    venue_backtrack = 0
     while True:
         #The main interface the user of this program will see
-        user_interface = int(input("""Welcome to the Staff Music Festival! What would you like to work on?
+        user_interface = (input("""\nWelcome to the Staff Music Festival! What would you like to work on?
                                 1. Artist Management
                                 2. Schedule Management
                                 3. Venue Management
                                 4. Ticket Sales
                                 5. Search for functions, sales, attendees
                                 6. All done\n"""))
+        try:
+            user_interface = int(user_interface)
+        except:
+            print("\nPlease only enter a whole numer")
+            user_interface = 0
         if user_interface == 1:
-            if int(input("Would you like to modify a band list, or make one?")) == 1:
-                add_band_func()
-                artmanagment_backtrack = 1
+            if venue_backtrack == 0:
+                print("\nPlease go to venu managment first!")
             else:
-                band_modify_func()
+                try:
+                    if int(input("would you like to go to\n\n(1) Band list creator\n\n(2) Band list manager\n\nType the number corrosponding to your input")) == 1:
+                        add_band_func()
+                        artmanagment_backtrack = 1
+                    else:
+                        if artmanagment_backtrack == 1:
+                            band_modify_func()
+                        else:
+                            print("please create a band list before you try to manage it")
+                except:
+                    print("Please only enter a whole number")
         elif user_interface == 2:
             schedule_management()
         elif user_interface == 3:
             venue_management(venue_list)
+            venue_backtrack = 1
         elif user_interface == 4:
             ticket_sales()
         elif user_interface == 5:
             searcher_func()
-        elif user_interface == 6:
+        elif user_interface == 6: #Completely exists out of the program with a "are you sure?" question.
             last_verifi = input("Are you sure you're done? Please reply with a simple yes or no\n")
             if last_verifi == "yes" or last_verifi == "Yes" or last_verifi == "YES":
                 print("Thank you for your work today! It's time to head on home!")
