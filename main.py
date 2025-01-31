@@ -293,7 +293,7 @@ def ticket_sales():
                     name_for_ticket = input("What is the name of the owner of the ticket?\n-->")
                     ticket_num_list = []
                     for i in range(10):
-                        ticket_num_list.append(random.randint(0,9))
+                        ticket_num_list.append(int(random.randint(0,9)))
                     ticket_num = "".join(ticket_num_list)
                     print("Here is your ticket (Remember the ticket number!!!):")
                     tickets.append((name_for_ticket, "VIP", ticket_num))
@@ -303,8 +303,21 @@ def ticket_sales():
                     print("Not a valid ticket type!")
         elif choice == "2":
             while True:
-                ticket_num_to_delete = input("What is the ticket number?\n-->")
-                start_here = True
+                num5 = 0
+                print("These are all of the tickets:")
+                for ticket in tickets:
+                    print(ticket)
+                ticket_num_to_delete = input("What is the ticket number to delete? (Type exit to exit)\n-->")
+                for ticket in tickets:
+                    if ticket_num_to_delete == ticket[2]:
+                        tickets.remove(ticket)
+                        num5 += 1
+                if ticket_num_to_delete == "exit":
+                    break
+                if num5 == 0:
+                    print("No tickets with that ticket number!")
+                else:
+                    break
         elif choice == "3":
             break
                 
