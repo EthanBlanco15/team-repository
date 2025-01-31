@@ -17,6 +17,9 @@
 # found is a boolean flag used to track if any matching bands were found during a search.
 
 
+#Ethan Blanco, Samuel Andelin, Mark Bishop, Music Festival
+
+
 #these lists are created outside any functions so that everyone is able to use them
 
 dict_lists = {
@@ -173,12 +176,6 @@ def searcher_func():
         except:
             print("\nPlease enter in a whole number.")
 
-#secret passcode to be an admin
-secret_passcode = "admin.py"
-
-#list containing all login info
-login_info = []
-
 #list of remaining time slots
 times_left = ["12:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"]
 
@@ -190,94 +187,6 @@ tickets = []
 
 #importing random
 import random
-
-#sign-in/sign-up function
-def sign_in():
-    while True:
-        choice = input("Type 1 to sign-up, type 2 to login, type 3 if you want to exit.\n-->")
-        
-        #choice to sign-up
-        if choice == "1":
-            #checks if the username is taken
-            while True:
-                breakout = True
-                new_username = input("What do you want your username to be?\n-->")
-                for account in login_info:
-                    if new_username in account:
-                        print("That username is already taken!")
-                        breakout = False
-                        break
-                if breakout:
-                    break
-
-            #password input
-            while True:
-                new_password = input("What do you want your password to be?\n-->")
-                confirm_password = input("Type password again to confirm.\n-->")
-                if new_password == confirm_password:
-                    break
-                else:
-                    print("Passwords do not match!")
-
-            #choice to become an admin
-            while True:
-                admin_choice = input("Type 1 to become an admin and type 2 to create a normal account.\n-->")
-                if admin_choice == "1":
-                    passcode = input("What is the secret passcode to become an admin?\n-->")
-                    if passcode == secret_passcode:
-                        print("You are now an admin!")
-                        if_admin = True
-                        break
-                    else:
-                        print("Incorrect!")
-                        print("Your account is set to normal.")
-                        if_admin = False
-                        break
-                        #inputs info into database
-                if admin_choice == "2":
-                    print("Your account is set to normal.")
-                    if_admin == False
-                    break
-                else:
-                    print("Invalid input.")
-            login_info.append((new_username, new_password, if_admin))
-            print("Account created successfully!")
-        
-        #choice to login
-        if choice == "2":
-            while True:
-                login = False
-                num = 0
-                input_username = input("What is the username of your account?\n-->")
-
-                #checks if the username is in the database
-                for account in login_info:
-                    if input_username in account:
-                        #checks if the password correlates to the username
-                        num += 1
-                        input_password = input("What is the password of your account?\n-->")
-                        if input_password in account[1]:
-                            login = True
-                            accountloggedin = account
-                            break
-                        else:
-                            print("Invalid password!")
-                        
-
-                if num == 0:
-                    print("No account with that username!")
-                    continue
-
-                if login:
-                    print("Login successful!")
-                    return accountloggedin
-        
-        #choice to exit system
-        if choice == "3":
-            return "exit"
-
-        else:
-            print("Not a valid input!")
 
 #schedule management function
 def schedule_management():
@@ -385,15 +294,8 @@ def schedule_management():
         else:
             print("That is not valid option!")
 
-                    
-                
 
-                    
-
-
-#Ethan Blanco, Music Festival, Venue Management
-
-venue_list = ("Nothing")
+venue_list = set({})
 
 def venue_management(venue_list): #This function is for assigning stages with artists on a certain time for the music festival
     
@@ -411,36 +313,39 @@ def venue_management(venue_list): #This function is for assigning stages with ar
                                 4. View venue list
                                 5. Return/Backspace
                                 6. Exit\n""")) #Let's the user do what they want with the venue related stuff, anything that can be managed is available.
-            if venue_start == 1:
+            if venue_start == 1: #Lets the user add a new list
                 new_ven_name = input("What would you like to name this new venue list? Please include the name for the artist\n")
-                venue_list = []
-                venue_list.append(new_ven_name)
-                venue_list.pop(1)
+                venue_list.add(new_ven_name)
                 print(venue_list)
-                venue_list = ()
-            elif venue_start == 2:
-                pass
-            elif venue_start == 3:
-                pass
-            elif venue_start == 4:
+            elif venue_start == 2: #Lets the user edit any existing list
+                edit_ven_name = input(f"What would you like to edit? Please enter a list that already exists {venue_list}\n")
+                venue_list.discard(edit_ven_name)
+                editing_ven_name = input("Now what's the new name?")
+                venue_list.add(editing_ven_name)
+                print(venue_list)
+            elif venue_start == 3: #Lets the user remove any existing list
+                remove_ven_name = input(f"What would you like to remove? Please enter a list that already exists {venue_list}\n")
+                venue_list.discard(remove_ven_name)
+                print(venue_list)
+            elif venue_start == 4: #Viewing the list anytime
                 print("Here you go!")
                 print(venue_list)
                 continue
-            elif venue_start == 5:
+            elif venue_start == 5: #Backtracking
                 print("Let's head back then, back to the start of the venue management!")
                 continue
-            elif venue_start == 6:
+            elif venue_start == 6: #Exit for the player anytime
                 print("Goodbye!")
                 break
             else:
-                print("This doesn't work, try entering a registered number instead!")
+                print("This doesn't work, try entering a registered value instead!") #Error handling
                 continue
-        elif venue_verifi == "" or venue_verifi == " ":
+        elif venue_verifi == "" or venue_verifi == " ": #For blank responses
             print("You wrote nothing! Please try again.")
             continue
         else:
             print("This doesn't work, please try an appropriate options such as 'yes' or 'no' next time!")
-            continue
+            continue #For any other type of invalid input
 
 #Ticket Sales and Attendee Management Function
 def ticket_sales():
@@ -521,7 +426,7 @@ def main():
         elif user_interface == 2:
             schedule_management()
         elif user_interface == 3:
-            venue_list = venue_management(venue_list)
+            venue_management(venue_list)
         elif user_interface == 4:
             ticket_sales()
         elif user_interface == 5:
