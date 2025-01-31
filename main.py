@@ -40,7 +40,10 @@ def add_band_func():
     for i in range(num_bands):
         band = input(f"\nEnter the name of band {i+1}: ")
         artists = input(f"\nEnter the artists in {band} (format: artist1, artist2, artist3): ")
-        venue = input(f"Which venu will {band} be preforming at? ")
+        print(f"\nWhich venu will {band} be preforming at? availible venues :")
+        for i in range(len(venue_list)):
+            print(f"\nVenu {i} {venue_list[i]}.")
+        venue = input(f"Please type the name of the venu you want the band to preform at: ")
         time = input(f"\nWhat time will {band} perform on stage {venue}? (format: [][]:[][] AM/PM) ")
         genres = input(f"\nWhich genres will {band} be playing? (format: Jazz, Electronic, Rock):  ")
           
@@ -510,11 +513,11 @@ def main():
                                 5. Search for functions, sales, attendees
                                 6. All done\n"""))
         if user_interface == 1:
-            if artmanagment_backtrack != 1:
+            if int(input("Would you like to modify a band list, or make one?")) == 1:
                 add_band_func()
                 artmanagment_backtrack = 1
-            elif artmanagment_backtrack == 1:
-                band_modify_func(artmanagment_backtrack)
+            else:
+                band_modify_func()
         elif user_interface == 2:
             schedule_management()
         elif user_interface == 3:
@@ -522,7 +525,7 @@ def main():
         elif user_interface == 4:
             ticket_sales()
         elif user_interface == 5:
-            pass
+            searcher_func()
         elif user_interface == 6:
             last_verifi = input("Are you sure you're done? Please reply with a simple yes or no\n")
             if last_verifi == "yes" or last_verifi == "Yes" or last_verifi == "YES":
