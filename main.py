@@ -13,6 +13,9 @@ scheduled_artists = []
 #list of all tickets
 tickets = []
 
+#importing random
+import random
+
 #sign-in/sign-up function
 def sign_in():
     while True:
@@ -264,6 +267,65 @@ def venue_management(venue_list): #This function is for assigning stages with ar
             print("This doesn't work, please try an appropriate options such as 'yes' or 'no' next time!")
             continue
 
+#Ticket Sales and Attendee Management Function
+def ticket_sales():
+    while True:
+        choice = input("Type 1 to add a ticket, type 2 to remove a ticket, and type 3 to exit.\n-->")
+        if choice == "1":
+            while True:
+                type_of_ticket = input("Type 1 to add a 1-day ticket, type 2 to add a 3-day ticket, type 3 to add a VIP ticket, and type 4 to exit.\n-->")
+                if type_of_ticket == "1":
+                    name_for_ticket = input("What is the name of the owner of the ticket?\n-->")
+                    ticket_num_list = []
+                    for i in range(10):
+                        ticket_num_list.append(random.randint(0,9))
+                    ticket_num = "".join(ticket_num_list)
+                    print("Here is your ticket (Remember the ticket number!!!):")
+                    tickets.append((name_for_ticket, "1-day", ticket_num))
+                    print((name_for_ticket, "1-day", ticket_num))
+                    break
+                elif type_of_ticket == "2":
+                    name_for_ticket = input("What is the name of the owner of the ticket?\n-->")
+                    ticket_num_list = []
+                    for i in range(10):
+                        ticket_num_list.append(random.randint(0,9))
+                    ticket_num = "".join(ticket_num_list)
+                    print("Here is your ticket (Remember the ticket number!!!):")
+                    tickets.append((name_for_ticket, "3-day", ticket_num))
+                    print((name_for_ticket, "3-day", ticket_num))
+                    break
+                elif type_of_ticket == "3":
+                    name_for_ticket = input("What is the name of the owner of the ticket?\n-->")
+                    ticket_num_list = []
+                    for i in range(10):
+                        ticket_num_list.append(int(random.randint(0,9)))
+                    ticket_num = "".join(ticket_num_list)
+                    print("Here is your ticket (Remember the ticket number!!!):")
+                    tickets.append((name_for_ticket, "VIP", ticket_num))
+                    print((name_for_ticket, "VIP", ticket_num))
+                    break
+                else:
+                    print("Not a valid ticket type!")
+        elif choice == "2":
+            while True:
+                num5 = 0
+                print("These are all of the tickets:")
+                for ticket in tickets:
+                    print(ticket)
+                ticket_num_to_delete = input("What is the ticket number to delete? (Type exit to exit)\n-->")
+                for ticket in tickets:
+                    if ticket_num_to_delete == ticket[2]:
+                        tickets.remove(ticket)
+                        num5 += 1
+                if ticket_num_to_delete == "exit":
+                    break
+                if num5 == 0:
+                    print("No tickets with that ticket number!")
+                else:
+                    break
+        elif choice == "3":
+            break
+                
 def main():
     
     while True:
@@ -278,11 +340,11 @@ def main():
         if user_interface == 1:
             pass
         elif user_interface == 2:
-            pass
+            schedule_management()
         elif user_interface == 3:
             venue_list = venue_management(venue_list)
         elif user_interface == 4:
-            pass
+            ticket_sales()
         elif user_interface == 5:
             pass
         elif user_interface == 6:
