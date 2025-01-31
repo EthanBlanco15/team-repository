@@ -207,15 +207,8 @@ def schedule_management():
         else:
             print("That is not valid option!")
 
-                    
-                
 
-                    
-
-
-#Ethan Blanco, Music Festival, Venue Management
-
-venue_list = ("Nothing")
+venue_list = set({})
 
 def venue_management(venue_list): #This function is for assigning stages with artists on a certain time for the music festival
     
@@ -233,36 +226,39 @@ def venue_management(venue_list): #This function is for assigning stages with ar
                                 4. View venue list
                                 5. Return/Backspace
                                 6. Exit\n""")) #Let's the user do what they want with the venue related stuff, anything that can be managed is available.
-            if venue_start == 1:
+            if venue_start == 1: #Lets the user add a new list
                 new_ven_name = input("What would you like to name this new venue list? Please include the name for the artist\n")
-                venue_list = []
-                venue_list.append(new_ven_name)
-                venue_list.pop(1)
+                venue_list.add(new_ven_name)
                 print(venue_list)
-                venue_list = ()
-            elif venue_start == 2:
-                pass
-            elif venue_start == 3:
-                pass
-            elif venue_start == 4:
+            elif venue_start == 2: #Lets the user edit any existing list
+                edit_ven_name = input(f"What would you like to edit? Please enter a list that already exists {venue_list}\n")
+                venue_list.discard(edit_ven_name)
+                editing_ven_name = input("Now what's the new name?")
+                venue_list.add(editing_ven_name)
+                print(venue_list)
+            elif venue_start == 3: #Lets the user remove any existing list
+                remove_ven_name = input(f"What would you like to remove? Please enter a list that already exists {venue_list}\n")
+                venue_list.discard(remove_ven_name)
+                print(venue_list)
+            elif venue_start == 4: #Viewing the list anytime
                 print("Here you go!")
                 print(venue_list)
                 continue
-            elif venue_start == 5:
+            elif venue_start == 5: #Backtracking
                 print("Let's head back then, back to the start of the venue management!")
                 continue
-            elif venue_start == 6:
+            elif venue_start == 6: #Exit for the player anytime
                 print("Goodbye!")
                 break
             else:
-                print("This doesn't work, try entering a registered number instead!")
+                print("This doesn't work, try entering a registered value instead!") #Error handling
                 continue
-        elif venue_verifi == "" or venue_verifi == " ":
+        elif venue_verifi == "" or venue_verifi == " ": #For blank responses
             print("You wrote nothing! Please try again.")
             continue
         else:
             print("This doesn't work, please try an appropriate options such as 'yes' or 'no' next time!")
-            continue
+            continue #For any other type of invalid input
 
 def main():
     
@@ -280,12 +276,12 @@ def main():
         elif user_interface == 2:
             pass
         elif user_interface == 3:
-            venue_list = venue_management(venue_list)
+            venue_management(venue_list)
         elif user_interface == 4:
             pass
         elif user_interface == 5:
             pass
-        elif user_interface == 6:
+        elif user_interface == 6: #Completely exists out of the program with a "are you sure?" question.
             last_verifi = input("Are you sure you're done? Please reply with a simple yes or no\n")
             if last_verifi == "yes" or last_verifi == "Yes" or last_verifi == "YES":
                 print("Thank you for your work today! It's time to head on home!")
