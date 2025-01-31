@@ -170,39 +170,6 @@ def searcher_func():
         except:
             print("\nPlease enter in a whole number.")
 
-
-    
-
-
-#main function        
-def main():
-    artmanagment_backtrack = 0
-    while True:
-        selection = 0
-        while selection < 1 or selection > 7:
-            try:
-                selection = int(input("\nWhere would you like to go?\n\n(1) Artist managment\n\n(2-5) WIP\n\n(6) Search for an artist\n\n(7) View all bands\n\nPlease type the number of your option: "))
-                if selection > 3 or selection < 1:
-                    print("\nPlease select only 1, 2, or 3\n")
-            except:
-                print("\nPlease only enter a whole number.")
-        if selection == 1:
-            if artmanagment_backtrack == 1:
-                band_modify_func()
-            else:
-                add_band_func()
-            artmanagment_backtrack = 1
-        elif selection == 6:
-            searcher_func()
-        elif selection == 7:
-            for i in range(len(dict_lists["lst_band_names"])):
-                print(f"{dict_lists["lst_band_names"][i]} with artists {dict_lists["lst_artists"][i]} will be on stage {dict_lists["lst_venus"][i]} at {dict_lists["lst_timeslots"][i]} - Genres: {dict_lists["lst_genres"][i]}.")
-        
-
-
-#main runner
-if __name__ == "__main__":
-    main()
 #secret passcode to be an admin
 secret_passcode = "admin.py"
 
@@ -532,7 +499,7 @@ def ticket_sales():
             break
                 
 def main():
-    
+    artmanagment_backtrack = 0
     while True:
         #The main interface the user of this program will see
         user_interface = int(input("""Welcome to the Staff Music Festival! What would you like to work on?
@@ -543,7 +510,11 @@ def main():
                                 5. Search for functions, sales, attendees
                                 6. All done\n"""))
         if user_interface == 1:
-            pass
+            if artmanagment_backtrack != 1:
+                add_band_func()
+                artmanagment_backtrack = 1
+            elif artmanagment_backtrack == 1:
+                band_modify_func(artmanagment_backtrack)
         elif user_interface == 2:
             schedule_management()
         elif user_interface == 3:
@@ -562,4 +533,5 @@ def main():
                 continue
     return user_interface
 
-main()
+if __name__ == "__main__":
+    main()
