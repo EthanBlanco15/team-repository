@@ -88,7 +88,7 @@ def band_modify_func():
     selection = 0
     selection = int(selection)
     while selection < 1 or selection > 2:
-        selection = int(input(f"We detect that you have already made {len(dict_lists["lst_band_names"])} band lists.\n\nYou can:\n\n(1) Modify an already existing band list\n\n(2) Delete you band list(start over)\n\n(3) Go back to main menu\n\nPlease type the number corrosponding to your selectoin: "))
+        selection = int(input(f"We detect that you have already made {len(dict_lists['lst_band_names'])} band lists.\n\nYou can:\n\n(1) Modify an already existing band list\n\n(2) Delete you band list(start over)\n\n(3) Go back to main menu\n\nPlease type the number corrosponding to your selectoin: "))
         if selection == 1:
             search_term = input("Enter the band name, artist name, stage, time slot, or genre to modify: ").strip().lower()
             found_indexes = []
@@ -101,7 +101,7 @@ def band_modify_func():
                 genre = dict_lists["lst_genres"][i].lower()
 
                 if (search_term in band_name or search_term in artist_names or search_term in venue or search_term in time_slot or search_term in genre):
-                    print(f"\n{i+1}. {dict_lists["lst_band_names"][i]} with artists {dict_lists["lst_artists"][i]} will be on stage {dict_lists["lst_venus"][i]} at {dict_lists["lst_timeslots"][i]} - Genres: {dict_lists["lst_genres"][i]}")
+                    print(f"\n{i+1}. {dict_lists['lst_band_names'][i]} with artists {dict_lists['lst_artists'][i]} will be on stage {dict_lists['lst_venus'][i]} at {dict_lists['lst_timeslots'][i]} - Genres: {dict_lists['lst_genres'][i]}")
                     found_indexes.append(i)
 
             if not found_indexes:
@@ -362,7 +362,7 @@ def ticket_sales():
                     name_for_ticket = input("What is the name of the owner of the ticket?\n-->")
                     ticket_num_list = []
                     for i in range(10):
-                        ticket_num_list.append(random.randint(0,9))
+                        ticket_num_list.append(str(random.randint(0,9)))
                     ticket_num = "".join(ticket_num_list)
                     print("Here is your ticket (Remember the ticket number!!!):")
                     tickets.append((name_for_ticket, "1-day", ticket_num))
@@ -372,7 +372,7 @@ def ticket_sales():
                     name_for_ticket = input("What is the name of the owner of the ticket?\n-->")
                     ticket_num_list = []
                     for i in range(10):
-                        ticket_num_list.append(random.randint(0,9))
+                        ticket_num_list.append(str(random.randint(0,9)))
                     ticket_num = "".join(ticket_num_list)
                     print("Here is your ticket (Remember the ticket number!!!):")
                     tickets.append((name_for_ticket, "3-day", ticket_num))
@@ -382,7 +382,7 @@ def ticket_sales():
                     name_for_ticket = input("What is the name of the owner of the ticket?\n-->")
                     ticket_num_list = []
                     for i in range(10):
-                        ticket_num_list.append(int(random.randint(0,9)))
+                        ticket_num_list.append(str(int(random.randint(0,9))))
                     ticket_num = "".join(ticket_num_list)
                     print("Here is your ticket (Remember the ticket number!!!):")
                     tickets.append((name_for_ticket, "VIP", ticket_num))
