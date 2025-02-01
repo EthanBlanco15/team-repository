@@ -34,36 +34,54 @@ dict_lists = {
 def add_band_func():
     num_bands = 0
     while num_bands == 0:
-        num_bands = (input("\nHow many bands would you like to add? "))
+        num_bands = input("\nHow many bands would you like to add? ")
         try:
             num_bands = int(num_bands)
-        except:
-            print("\nplease only enter a whole number")
+        except ValueError:
+            print("\nPlease only enter a whole number.")
             num_bands = 0
-    for i in range(num_bands):
-        band = input(f"\nEnter the name of band {i+1}: ")
-        artists = input(f"\nEnter the artists in {band} (format: artist1, artist2, artist3): ")
+
+    for _ in range(num_bands):
+        band = input("\nEnter the name of the band: ")
+        artists = input("\nEnter the artists in the band (format: artist1, artist2, artist3): ")
         
-        venu = 0
-        print("here are the avalible venus:")
-        for i in range(len(venue_list)):
-            print(f"\n{venu_list[i]}")
-        while venu not in venu_list:
-            venue = input(f"Which venu will {band} be preforming at? ")
-            
-        time = input(f"\nWhat time will {band} perform on stage {venue}? (format: [][]:[][] AM/PM) ")
-        genres = input(f"\nWhich genres will {band} be playing? (format: Jazz, Electronic, Rock):  ")
-          
+        print("\nHere are the available venues:")
+        for venue in venue_list:
+            print(venue)
+        
+        venue = None
+        while True:
+            venue_input = input("Which venue will the band perform at? ").strip()
+            if venue_input.lower() not in [v.lower() for v in venue_list]:
+                add_new = input("Venue not found. Would you like to add this as a new venue? (yes/no): ").strip().lower()
+                if add_new == "yes":
+                    venue_list.add(venue_input)
+                    print(f"New venue '{venue_input}' added!")
+                else:
+                    print("Invalid venue. Please choose from the available list.")
+                    continue
+            venue = venue_input
+            break
+
+        time = None
+        while True:
+            time = input(f"\nEnter the performance time for {band} (format: HH:MM AM/PM): ")
+            same_venue_conflicts = [(v, t) for v, t in zip(dict_lists["lst_venus"], dict_lists["lst_timeslots"]) if v == venue and t == time]
+            if not same_venue_conflicts:
+                break
+            print("Time slot conflict! Another band is already scheduled at this venue and time. Please choose a different time.")
+
+        genres = input("\nEnter the genres the band will play (format: Jazz, Electronic, Rock): ")
+
         dict_lists["lst_band_names"].append(band)
         dict_lists["lst_artists"].append(artists)
         dict_lists["lst_venus"].append(venue)
         dict_lists["lst_timeslots"].append(time)
         dict_lists["lst_genres"].append(genres)
 
-    # Display added bands
     print("\n--- Bands Added ---")
     for i in range(len(dict_lists["lst_band_names"])):
-        print(f"{dict_lists["lst_band_names"][i]} with artists {dict_lists["lst_artists"][i]} will be on stage {dict_lists["lst_venus"][i]} at {dict_lists["lst_timeslots"][i]} - Genres: {dict_lists["lst_genres"][i]}.")
+        print(f"{dict_lists['lst_band_names'][i]} with artists {dict_lists['lst_artists'][i]} will be on stage {dict_lists['lst_venus'][i]} at {dict_lists['lst_timeslots'][i]} - Genres: {dict_lists['lst_genres'][i]}.")
 
 #this allows modification, deletion, and creation of new lists
 def band_modify_func():
@@ -136,49 +154,31 @@ def band_modify_func():
 def searcher_func():
     while True:
         try:
-            if int(input("Would you like to search for a spesific artist, or be recomended one bassed off of inputed genres?\n\n(1) Search\n\n(2) Our recomendation\n\n Type the number corrosponding to your selection: ")) == 1:
+            choice = input("Would you like to:\n(1) Search for a specific artist or band\n(2) Get a recommendation based on genres\n(3) Exit\nType the number corresponding to your selection: ").strip()
+            if choice == "3":
+                break
+            elif choice == "1":
                 search_term = input("Enter the term you want to search for (Band Name, Artist, Venue, Time Slot, Genre): ").strip().lower()
                 found = False
-
                 for i in range(len(dict_lists["lst_band_names"])):
-                    band_name = dict_lists["lst_band_names"][i].lower()
-                    artist_names = dict_lists["lst_artists"][i].lower()
-                    venue = dict_lists["lst_venus"][i].lower()
-                    time_slot = dict_lists["lst_timeslots"][i].lower()
-                    genre = dict_lists["lst_genres"][i].lower()
-
-                    # Check if search term matches any field
-                    if (search_term in band_name or search_term in artist_names or
-                        search_term in venue or search_term in time_slot or search_term in genre):
-                        print(f"\n{dict_lists["lst_band_names"][i]} with artists {dict_lists["lst_artists"][i]} will be on stage {dict_lists["lst_venus"][i]} at {dict_lists["lst_timeslots"][i]} - Genres: {dict_lists["lst_genres"][i]}.")
+                    if any(search_term in dict_lists[key][i].lower() for key in ["lst_band_names", "lst_artists", "lst_venus", "lst_timeslots", "lst_genres"]):
+                        print(f"{dict_lists['lst_band_names'][i]} with artists {dict_lists['lst_artists'][i]} will be on stage {dict_lists['lst_venus'][i]} at {dict_lists['lst_timeslots'][i]} - Genres: {dict_lists['lst_genres'][i]}.")
                         found = True
-
                 if not found:
                     print("\nNo matching bands found.")
-            else:
+            elif choice == "2":
                 search_term = input("Enter the genre(s) you want to search for (e.g., 'Jazz', 'Rock, Electronic'): ").strip().lower()
-
-                found_indexes = []  
-
-                for i in range(len(dict_lists["lst_band_names"])):
-                    genres = dict_lists["lst_genres"][i].lower()  
-
-                    
-                    genre_list = genres.split(",") 
-                    for genre in genre_list:
-                        if search_term in genre.strip():  
-                            found_indexes.append(i)
-                            break  
-
+                found_indexes = [i for i in range(len(dict_lists["lst_band_names"])) if any(search_term in genre.strip().lower() for genre in dict_lists["lst_genres"][i].split(","))]
                 if found_indexes:
                     print("\nMatching bands found based on genre(s):")
                     for i in found_indexes:
                         print(f"{dict_lists['lst_band_names'][i]} with artists {dict_lists['lst_artists'][i]} will be on stage {dict_lists['lst_venus'][i]} at {dict_lists['lst_timeslots'][i]} - Genres: {dict_lists['lst_genres'][i]}")
                 else:
                     print("\nNo matching bands found.")
-                break
+            else:
+                print("Invalid selection. Please enter 1, 2, or 3.")
         except:
-            print("\nPlease enter in a whole number.")
+            print("\nPlease enter a valid number.")
 
 #list of remaining time slots
 times_left = ["12:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"]
